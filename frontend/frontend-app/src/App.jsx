@@ -1,13 +1,14 @@
+// frontend\frontend-app\src\App.jsx
 import React from 'react';
 import ClientList from './components/ClientList';
+import ClientForm from './components/ClientForm';
 
 function App() {
   return (
-    <div>
+    <main>
       <h1>Sistema da Clínica</h1>
+      <ClientForm />
       <ClientList />
-    </div>
+    </main>
   );
 }
-
-export default App;
