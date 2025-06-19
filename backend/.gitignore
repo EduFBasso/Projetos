@@ -1,6 +1,0 @@
-# Ambiente virtual
-venv
-
-# Django
-clinic_project/settings.py
-
