@@ -1,0 +1,60 @@
+# 🐍 Python
+venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# ⚙️ Django
+*.migrations/
+*.db
+local_settings.py
+
+# 📦 Node (React / Vite)
+node_modules/
+dist/
+.vite/
+
+# ⚙️ Logs e temporários
+*.log
+*.tmp
+*.swp
+
+# 🛑 Segurança e variáveis de ambiente
+.env
+.env.* 
+secrets.json
+config.local.json
+
+# 💻 Sistema operacional
+.DS_Store       # macOS
+Thumbs.db       # Windows
+ehthumbs.db
+Icon?
+
+# 💻 VS Code / IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 📚 Documentação gerada (caso use Docusaurus, por exemplo)
+build/
+.docusaurus/
+
+# 🚀 Testes e cobertura
+coverage/
+htmlcov/
+*.cover
+*.pytest_cache/
+
+# ⚙️ Git
+*.orig
+
+# Ambiente virtual
+venv
+
+# Django
+clinic_project/settings.py
+
+
