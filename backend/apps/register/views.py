@@ -16,8 +16,17 @@ class ClientViewSet(ModelViewSet):
     """
     API endpoint que permite visualizar ou editar clientes.
     """
-    queryset = Client.objects.all()
     serializer_class = ClientSerializer
+
+    def get_queryset(self):
+        queryset = Client.objects.all()
+        professional_id = self.request.query_params.get('professional_id')
+
+        if professional_id:
+            queryset = queryset.filter(prof_id=professional_id)
+
+        return queryset
+    
 
 class ProfessionalViewSet(ModelViewSet):
     """

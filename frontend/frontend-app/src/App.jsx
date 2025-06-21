@@ -3,59 +3,60 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
-  // Estado que armazena todos os clientes cadastrados
+  // Estado de clientes e profissionais
   const [clients, setClients] = useState([]);
-
-  // Estado com a lista de profissionais cadastrados
   const [professionals, setProfessionals] = useState([]);
 
-  // Termo digitado na busca de clientes
+  // Controle do login
+  const [selectedProfessionalId, setSelectedProfessionalId] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedProfessional, setLoggedProfessional] = useState(null);
+
+  // Busca por nome
   const [search, setSearch] = useState('');
 
-  // Define se o profissional está autenticado
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Nome do profissional selecionado
-  const [professionalName, setProfessionalName] = useState('');
-
-  // Senha digitada no campo de login
-  const [password, setPassword] = useState('');
-
-  // Busca lista de clientes e profissionais assim que o componente é montado
-  useEffect(() => {
-    axios.get('http://localhost:8000/register/clients/')
-      .then(res => setClients(res.data))
-      .catch(err => console.error(err));
-
-    axios.get('http://localhost:8000/register/professionals/')
-      .then(res => setProfessionals(res.data))
-      .catch(err => console.error(err));
-  }, []);
-
-  // Lista de profissionais ordenada alfabeticamente pelo primeiro nome
+  // Ordenar profissionais por nome
   const sortedProfessionals = [...professionals].sort((a, b) =>
     a.first_name.localeCompare(b.first_name)
   );
 
-  // Lista de clientes filtrada pelo nome digitado
+  // Filtrar clientes pelo nome buscado
   const filteredClients = clients.filter(client =>
     client.first_name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Função de login: busca o e-mail pelo nome selecionado e envia senha ao backend
+  // Carrega lista de profissionais ao montar o componente
+  useEffect(() => {
+    axios.get('/register/professionals/')
+      .then(res => setProfessionals(res.data))
+      .catch(err => console.error(err));
+  }, []);
+
+  // Carrega clientes após login
+  useEffect(() => {
+    if (isLoggedIn && loggedProfessional) {
+      axios.get(`/register/clients/?professional_id=${loggedProfessional.id}`)
+        .then(res => setClients(res.data))
+        .catch(err => console.error('Erro ao buscar clientes:', err));
+    }
+  }, [isLoggedIn, loggedProfessional]);
+
+  // Função de login
   function handleLogin() {
     const selectedProfessional = professionals.find(
-      prof => prof.first_name === professionalName
+      prof => prof.id === parseInt(selectedProfessionalId)
     );
 
-    axios.post('http://localhost:8000/register/login/', {
-      email: selectedProfessional?.email,
+    if (!selectedProfessional) return;
+
+    axios.post('/register/login/', {
+      email: selectedProfessional.email,
       password: password
     })
       .then(res => {
         setIsLoggedIn(true);
-        setProfessionalName(res.data.first_name);
-        console.log('Login realizado com sucesso!', res.data);
+        setLoggedProfessional(selectedProfessional);
       })
       .catch(err => {
         console.error('Erro no login:', err.response?.data);
@@ -68,7 +69,6 @@ function App() {
       <header className="header">
         <h1>Sistema da Clínica</h1>
 
-        {/* Exibe formulário de login enquanto não estiver autenticado */}
         {!isLoggedIn ? (
           <div className="login-box">
             <label htmlFor="select-profissional" className="login-label">
@@ -77,13 +77,13 @@ function App() {
 
             <select
               id="select-profissional"
-              value={professionalName}
-              onChange={e => setProfessionalName(e.target.value)}
+              value={selectedProfessionalId}
+              onChange={e => setSelectedProfessionalId(e.target.value)}
             >
               <option value="">Selecione o profissional</option>
               {sortedProfessionals.map(prof => (
-                <option key={prof.id} value={prof.first_name}>
-                  {prof.first_name} {prof.last_name}
+                <option key={prof.id} value={prof.id}>
+                  Dr(a). {prof.first_name} — CRM/COP {prof.crm} — {prof.category || prof.specialty}
                 </option>
               ))}
             </select>
@@ -95,14 +95,16 @@ function App() {
             />
 
             <button
-              disabled={!professionalName || !password}
+              disabled={!selectedProfessionalId || !password}
               onClick={handleLogin}
             >
               Entrar
             </button>
           </div>
         ) : (
-          <p className="welcome-message">Olá, Dr(a). {professionalName}</p>
+          <p className="welcome-message">
+            Olá, Dr(a). {loggedProfessional.first_name} — CRM/COP {loggedProfessional.crm} — {loggedProfessional.category || loggedProfessional.specialty}
+          </p>
         )}
       </header>
 
