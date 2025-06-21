@@ -33,6 +33,8 @@ backend/
 
 ✨ Tudo isso integrado com o `frontend/`, usando APIs e Axios para conectar o React ao Django.
 
+
+
 ## 💻 Estrutura do Frontend (React + Vite)
 
 ```
@@ -70,3 +72,22 @@ server: {
   }
 }
 ```
+
+## frontend/
+└── frontend-app/
+    ├── public/
+    │   └── index.html           # Estrutura HTML base da aplicação
+    ├── src/
+    │   ├── assets/              # Ícones, imagens e estilos visuais
+    │   ├── components/          # Componentes React reutilizáveis
+    │   │   ├── ClientForm.jsx   # Formulário de criação de clientes
+    │   │   └── ClientList.jsx   # Lista dinâmica de clientes
+    │   ├── App.jsx              # Componente raiz (layout e rotas)
+    │   ├── App.css              # Estilos principais do app
+    │   ├── index.css            # Estilos base e resets
+    │   └── main.jsx             # Ponto de entrada do React DOM
+    ├── .gitignore               # Ignora node_modules, .env, etc.
+    ├── eslint.config.js         # Regras de qualidade e lint
+    ├── package.json             # Dependências e scripts NPM
+    ├── package-lock.json        # Lockfile com versões exatas
+    └── vite.config.js           # Configurações do Vite (inclui proxy para backend)
