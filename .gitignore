@@ -54,7 +54,16 @@ htmlcov/
 # Ambiente virtual
 venv
 
-# Django
+# Configurações do Django
 clinic_project/settings.py
 
 
+# Ignorar cache do Python
+__pycache__/
+*.py[cod]
+
+# Ignorar o banco local (se não quiser versionar)
+db.sqlite3
+
+# Ignorar ambiente virtual
+venv/
