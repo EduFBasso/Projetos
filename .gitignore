@@ -67,3 +67,6 @@ db.sqlite3
 
 # Ignorar ambiente virtual
 venv/
+
+# Outros
+ESTRUTURA

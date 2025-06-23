@@ -3,37 +3,28 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
-  // Estado de clientes e profissionais
   const [clients, setClients] = useState([]);
   const [professionals, setProfessionals] = useState([]);
-
-  // Controle do login
   const [selectedProfessionalId, setSelectedProfessionalId] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedProfessional, setLoggedProfessional] = useState(null);
-
-  // Busca por nome
   const [search, setSearch] = useState('');
 
-  // Ordenar profissionais por nome
   const sortedProfessionals = [...professionals].sort((a, b) =>
     a.first_name.localeCompare(b.first_name)
   );
 
-  // Filtrar clientes pelo nome buscado
   const filteredClients = clients.filter(client =>
     client.first_name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Carrega lista de profissionais ao montar o componente
   useEffect(() => {
     axios.get('/register/professionals/')
       .then(res => setProfessionals(res.data))
       .catch(err => console.error(err));
   }, []);
 
-  // Carrega clientes após login
   useEffect(() => {
     if (isLoggedIn && loggedProfessional) {
       axios.get(`/register/clients/?professional_id=${loggedProfessional.id}`)
@@ -42,26 +33,35 @@ function App() {
     }
   }, [isLoggedIn, loggedProfessional]);
 
-  // Função de login
   function handleLogin() {
     const selectedProfessional = professionals.find(
       prof => prof.id === parseInt(selectedProfessionalId)
     );
-
     if (!selectedProfessional) return;
 
     axios.post('/register/login/', {
       email: selectedProfessional.email,
       password: password
     })
-      .then(res => {
+      .then(() => {
         setIsLoggedIn(true);
         setLoggedProfessional(selectedProfessional);
+        setSelectedProfessionalId('');
+        setPassword('');
       })
       .catch(err => {
         console.error('Erro no login:', err.response?.data);
         alert('Login inválido. Verifique os dados e tente novamente.');
       });
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+    setLoggedProfessional(null);
+    setClients([]);
+    setPassword('');
+    setSelectedProfessionalId('');
+    setSearch('');
   }
 
   return (
@@ -91,6 +91,7 @@ function App() {
             <input
               type="password"
               placeholder="Senha"
+              value={password}
               onChange={e => setPassword(e.target.value)}
             />
 
@@ -102,9 +103,14 @@ function App() {
             </button>
           </div>
         ) : (
-          <p className="welcome-message">
-            Olá, Dr(a). {loggedProfessional.first_name} — CRM/COP {loggedProfessional.crm} — {loggedProfessional.category || loggedProfessional.specialty}
-          </p>
+          <div className="welcome-box">
+            <p className="welcome-message">
+              Olá, Dr(a). {loggedProfessional.first_name} — CRM/COP {loggedProfessional.crm} — {loggedProfessional.category || loggedProfessional.specialty}
+            </p>
+            <button onClick={handleLogout} className="logout-button">
+              Sair
+            </button>
+          </div>
         )}
       </header>
 

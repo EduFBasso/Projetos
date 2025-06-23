@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,6 +74,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+USE_I18N = True
+
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
@@ -84,3 +89,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}

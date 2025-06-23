@@ -1,42 +1,42 @@
-# Importações locais do app
+# --- Importações locais do app ---
 from .models import Client, Professional
 from .serializers import ClientSerializer, ProfessionalSerializer
 
-# Importações do Django REST Framework
+# --- Importações do Django REST Framework ---
+from rest_framework import viewsets
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
-# Módulo de autenticação do Django
+# --- Módulos auxiliares do Django ---
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 
 # --- ViewSets para API REST ---
 
-class ClientViewSet(ModelViewSet):
-    """
-    API endpoint que permite visualizar ou editar clientes.
-    """
+class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Client.objects.all()
-        professional_id = self.request.query_params.get('professional_id')
+        user = self.request.user
+        queryset = Client.objects.filter(prof_id=user)
 
-        if professional_id:
-            queryset = queryset.filter(prof_id=professional_id)
+        nome = self.request.query_params.get('nome')
+        if nome:
+            queryset = queryset.filter(first_name__icontains=nome)
 
         return queryset
-    
 
 class ProfessionalViewSet(ModelViewSet):
-    """
-    API endpoint que permite visualizar ou editar profissionais.
-    """
+    """Permite visualizar ou editar profissionais."""
     queryset = Professional.objects.all()
     serializer_class = ProfessionalSerializer
+    permission_classes = [IsAuthenticated]
 
 # --- Autenticação de profissional via e-mail e senha ---
-
+@csrf_exempt
 @api_view(['POST'])
 def login_professional(request):
     """

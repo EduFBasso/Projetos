@@ -10,7 +10,7 @@ class Client(models.Model):
     phone = models.CharField("Telefone", max_length=20)
     email = models.EmailField("E-mail", unique=True)
     created_at = models.DateTimeField("Criado em", auto_now_add=True)
-    prof_id = models.IntegerField("ID do Profissional")  # Vamos melhorar isso depois com ForeignKey!
+    prof_id = models.ForeignKey('Professional', on_delete=models.CASCADE, related_name='clients')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
