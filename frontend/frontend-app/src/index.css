@@ -1,143 +1,40 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #f3f7fb;
-  color: #333;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
+/* frontend\frontend-app\src\index.css */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, #000000, #ffffff, #0062a3);
-  color: white;
   padding: 1rem 2rem;
+  background-color: #ffffff;
   border-bottom: 2px solid #ccc;
 }
 
-.welcome-message {
-  font-weight: bold;
-  font-size: 1rem;
+.header-left h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #0062a3;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .login-box {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
-
-.login-box input {
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.menu {
-  display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.menu button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #0062a3;
-  color: white;
-  font-weight: 500;
-  transition: background-color 0.3s;
-}
-
-.menu button:hover:enabled {
-  background-color: #004f85;
-}
-
-.menu button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
 
 .login-box select,
-.login-box input[type="password"] {
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 0.9rem;
+.login-box input {
+  padding: 0.4rem;
+  font-size: 1rem;
 }
 
-.login-box select:focus,
-.login-box input:focus {
-  outline: none;
-  border-color: #0062a3;
-  box-shadow: 0 0 0 2px rgba(0, 98, 163, 0.2);
+.welcome-message {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #4CAF50;
+  font-weight: 500;
 }

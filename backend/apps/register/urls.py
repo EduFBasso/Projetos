@@ -1,3 +1,4 @@
+# urls do app register
 # backend\apps\register\urls.py
 
 from django.urls import path, include

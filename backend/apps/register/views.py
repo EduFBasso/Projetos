@@ -1,3 +1,5 @@
+# backend\apps\register\views.py
+
 # --- Importações locais do app ---
 from .models import Client, Professional
 from .serializers import ClientSerializer, ProfessionalSerializer
@@ -7,7 +9,7 @@ from rest_framework import viewsets
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 # --- Módulos auxiliares do Django ---
 from django.views.decorators.csrf import csrf_exempt
@@ -33,7 +35,7 @@ class ProfessionalViewSet(ModelViewSet):
     """Permite visualizar ou editar profissionais."""
     queryset = Professional.objects.all()
     serializer_class = ProfessionalSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 # --- Autenticação de profissional via e-mail e senha ---
 @csrf_exempt
