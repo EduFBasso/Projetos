@@ -17,7 +17,6 @@ class Client(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-
 class ProfessionalManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
